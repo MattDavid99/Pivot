@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.lightning-text {
+  position: relative;
+  display: inline-block;
+  color: white;
+  overflow: hidden;
+}
+
+.lightning-text::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(to right, transparent 0%, rgba(199, 207, 255, 0.4) 50%, transparent 100%);
+  animation: lightning-animation 2.5s infinite;
+}
+
+.single-door-title {
+  margin-bottom: -20px; /* Adjust this value to fine-tune */
+  margin-top: 20px;
+}
+
+.double-door-title {
+  margin-top: -20px;
+  margin-bottom: -90px; /* Adjust this value to bring it closer */
+}
+
+@media (max-width: 768px) {
+  /* Smaller font size and spacing for mobile */
+  .single-door-title,
+  .double-door-title {
+    font-size: 1.5rem; /* Tailored for mobile screens */
+    margin-top: 0px; /* Optional: reduce spacing */
+    margin-bottom: -20px; /* Adjust to prevent overlap */
+  }
+}
+
+@keyframes lightning-animation {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* ::selection {
+  background: rgba(212, 114, 104, 255);
+  color: white;
+} */
