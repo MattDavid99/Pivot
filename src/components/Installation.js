@@ -43,11 +43,11 @@ const Carousel = ({
               onClick={previousSlide}
               disabled={currentSlide === 0}
               className={`${
-                disabledLeftButton ? 'bg-[#c0f0c0]' : 'bg-[#90ee90]'
+                disabledLeftButton ? 'bg-[#c0f0c0]' : 'bg-[#83ce53]'
               } text-white w-16 h-8 flex items-center justify-center shadow-lg transition duration-300 rounded-full ${
                 disabledLeftButton
                   ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:bg-[#76d776]'
+                  : 'hover:bg-[#69c569]'
               }`}
               style={{ borderRadius: '20px' }}
             >
@@ -57,11 +57,11 @@ const Carousel = ({
               onClick={nextSlide}
               disabled={disabledRightButton}
               className={`${
-                disabledRightButton ? 'bg-[#c0f0c0]' : 'bg-[#90ee90]'
+                disabledRightButton ? 'bg-[#c0f0c0]' : 'bg-[#83ce53]'
               } text-white w-16 h-8 flex items-center justify-center shadow-lg transition duration-300 rounded-full ${
                 disabledRightButton
                   ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:bg-[#76d776]'
+                  : 'hover:bg-[#69c569]'
               }`}
               style={{ borderRadius: '20px' }}
             >
