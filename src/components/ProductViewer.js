@@ -1,111 +1,153 @@
 import React, { useRef, useEffect, useState, Suspense } from 'react'
-import { Canvas, useFrame, useLoader } from '@react-three/fiber'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { OrbitControls, useGLTF, useAnimations } from '@react-three/drei'
 import * as THREE from 'three'
 
-function Model({ url, onLoaded, shouldRotate }) {
-  const groupRef = useRef()
-  const gltf = useLoader(GLTFLoader, url, (loader) => {
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/')
-    loader.setDRACOLoader(dracoLoader)
-  })
+const Model = ({
+  url,
+  position,
+  playAnimation,
+  setModelCurrentPosition,
+  resetPositions,
+  setCurrentAnimationTime,
+}) => {
+  const { scene, animations } = useGLTF(url, true)
+  const modelRef = useRef(null)
+  const { actions } = useAnimations(animations, scene)
 
   useEffect(() => {
-    if (gltf) {
-      const model = gltf.scene
-
-      const scaleFactor = 0.005
-      model.scale.set(scaleFactor, scaleFactor, scaleFactor)
-
-      // Centering the model
-      const box = new THREE.Box3().setFromObject(model)
-      const center = box.getCenter(new THREE.Vector3())
-      model.position.sub(center)
-
-      const sphere = box.getBoundingSphere(new THREE.Sphere())
-
-      groupRef.current.add(model)
-
-      onLoaded(sphere)
-
-      return () => {
-        if (gltf) {
-          gltf.scene.traverse((child) => {
-            if (child.isMesh) {
-              child.geometry.dispose()
-              child.material.dispose()
-            }
-          })
-        }
-      }
+    if (actions) {
+      Object.values(actions).forEach((action) => {
+        action.paused = !playAnimation
+        playAnimation && action.play()
+      })
     }
-  }, [gltf, onLoaded])
+  }, [actions, playAnimation])
 
   useFrame(() => {
-    if (groupRef.current && shouldRotate) {
-      groupRef.current.rotation.y += 0.005
+    setCurrentAnimationTime(actions?.ArmatureAction?.time)
+    if (actions?.ArmatureAction?.time <= 1 && playAnimation) {
+      resetPositions()
+      modelRef.current.position.set(position)
+    }
+    if (actions?.ArmatureAction?.time > 4 && playAnimation) {
+      modelRef.current.position.lerp(
+        new THREE.Vector3(position.x, -2.2, position.z),
+        0.005
+      )
+      setModelCurrentPosition(modelRef.current.position)
     }
   })
 
-  return <group ref={groupRef} />
+  return <primitive ref={modelRef} object={scene} position={position} />
 }
 
-export default function ProductViewer() {
-  const [boundingSphere, setBoundingSphere] = useState(null)
-  const [shouldRotate, setShouldRotate] = useState(true)
-  const cameraRef = useRef()
-  const rotationTimeoutRef = useRef()
+const SmoothCamera = ({
+  playAnimation,
+  setAnimating,
+  cameraCurrentPosition,
+  setCameraCurrentPosition,
+  currentAnimationTime,
+}) => {
+  const { camera } = useThree()
+  const notPlayAnimationPosition = new THREE.Vector3(-3, 2, 6)
+  const [animateCamera, setAnimateCamera] = useState(false)
 
-  const cameraPositionFactor = 0.99
-  const cameraHeight = 0
+  useFrame(() => {
+    const targetPosition = playAnimation
+      ? cameraCurrentPosition
+      : notPlayAnimationPosition
+    const distance = camera.position.distanceTo(targetPosition)
 
-  useEffect(() => {
-    if (boundingSphere && cameraRef.current) {
-      const camera = cameraRef.current
-      const fov = camera.fov * (Math.PI / 180)
-      const distance =
-        (boundingSphere.radius / Math.sin(fov / 2)) * cameraPositionFactor
-      const direction = new THREE.Vector3(1, cameraHeight, 1).normalize()
-      camera.position.copy(
-        direction.multiplyScalar(distance).add(boundingSphere.center)
+    if (playAnimation && !animateCamera && currentAnimationTime > 4) {
+      setCameraCurrentPosition(
+        cameraCurrentPosition.lerp(new THREE.Vector3(0, 0, 5.5), 0.005)
       )
-      camera.near = distance / 100
-      camera.far = distance * 100
-      camera.lookAt(boundingSphere.center)
-      camera.updateProjectionMatrix()
+      camera.position.z = cameraCurrentPosition.z
+    } else if (playAnimation && !animateCamera && currentAnimationTime <= 4) {
+      camera.position.z = cameraCurrentPosition.z
     }
-  }, [boundingSphere, cameraPositionFactor, cameraHeight])
 
-  const handleDragStart = () => {
-    setShouldRotate(false)
-    clearTimeout(rotationTimeoutRef.current)
+    if (animateCamera && distance > 0.1) {
+      camera.position.lerp(targetPosition, 0.1)
+      camera.lookAt(0, 0, 0)
+    } else {
+      setAnimating(false)
+      setAnimateCamera(false)
+    }
+  })
+
+  useEffect(() => {
+    setAnimateCamera(true)
+    setAnimating(true)
+  }, [playAnimation])
+
+  return null
+}
+
+export default function ProductViewer({
+  playAnimation,
+  setPlayAnimation,
+  canClick3dBtn,
+}) {
+  const cameraRef = useRef()
+  const cameraInitialPosition = new THREE.Vector3(0, 0, 7)
+  const [cameraCurrentPosition, setCameraCurrentPosition] = useState(
+    cameraInitialPosition
+  )
+  const modelInitialPosition = new THREE.Vector3(0, -3, 0)
+  const [modelCurrentPosition, setModelCurrentPosition] =
+    useState(modelInitialPosition)
+  const [currentAnimationTime, setCurrentAnimationTime] = useState(0)
+  const [animating, setAnimating] = useState(false)
+  const [cursorStyle, setCursorStyle] = useState('cursor-grab')
+  const [interactionTimer, setInteractionTimer] = useState(null)
+
+  const handleMouseDown = () => {
+    resetTimer()
+    setCursorStyle('cursor-grabbing')
   }
 
-  const handleDragEnd = () => {
-    rotationTimeoutRef.current = setTimeout(() => {
-      setShouldRotate(true)
-    }, 5000)
+  const handleMouseUp = () => {
+    resetTimer()
+    setCursorStyle('cursor-grab')
+  }
+
+  const resetTimer = () => {
+    if (interactionTimer) clearTimeout(interactionTimer)
+    setInteractionTimer(setTimeout(() => setPlayAnimation(true), 8000))
+  }
+
+  const resetPositions = () => {
+    setCameraCurrentPosition(cameraInitialPosition)
+    setModelCurrentPosition(modelInitialPosition)
   }
 
   useEffect(() => {
-    return () => clearTimeout(rotationTimeoutRef.current)
-  }, [])
+    !playAnimation && resetTimer()
+    return () => interactionTimer && clearTimeout(interactionTimer)
+  }, [playAnimation])
 
   return (
     <div
-      style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'white',
-      }}
+      className={`${!playAnimation ? cursorStyle : ''}`}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      style={{ width: '100%', height: '100%', backgroundColor: 'white' }}
     >
-      <Canvas toneMapping={THREE.LinearToneMapping}>
-        <PerspectiveCamera ref={cameraRef} makeDefault fov={60} />
-
-        {/* Adjusted lighting */}
+      <Canvas
+        ref={cameraRef}
+        toneMapping={THREE.LinearToneMapping}
+        camera={{ position: cameraInitialPosition, fov: 50 }}
+      >
+        <SmoothCamera
+          playAnimation={playAnimation}
+          animating={animating}
+          setAnimating={setAnimating}
+          cameraCurrentPosition={cameraCurrentPosition}
+          setCameraCurrentPosition={setCameraCurrentPosition}
+          currentAnimationTime={currentAnimationTime}
+        />
         <ambientLight intensity={1.5} color={0xffffff} />
         <directionalLight intensity={3} position={[3, 3, 5]} color={0xffffff} />
         <directionalLight
@@ -113,27 +155,36 @@ export default function ProductViewer() {
           position={[-3, -3, -5]}
           color={0xffffff}
         />
-
         <Suspense
           fallback={
             <mesh>
-              <boxGeometry args={[1, 1, 1]} />
-              <meshStandardMaterial color="hotpink" />
+              <boxGeometry args={[0, 0, 0]} />
+              <meshBasicMaterial color="white" />
             </mesh>
           }
         >
           <Model
-            url="/metal-2.glb"
-            onLoaded={setBoundingSphere}
-            shouldRotate={shouldRotate}
+            url="/metal.glb"
+            position={modelCurrentPosition}
+            setModelCurrentPosition={setModelCurrentPosition}
+            playAnimation={playAnimation}
+            resetPositions={resetPositions}
+            setCurrentAnimationTime={setCurrentAnimationTime}
           />
         </Suspense>
+        <mesh>
+          <boxGeometry args={[20, 20, 20]} />
+          <meshBasicMaterial
+            color={0xffffff}
+            side={THREE.BackSide}
+            toneMapped={false}
+          />
+        </mesh>
         <OrbitControls
+          enabled={!animating && !playAnimation}
           enableDamping={false}
           enableZoom={true}
           maxDistance={20}
-          onStart={handleDragStart}
-          onEnd={handleDragEnd}
         />
       </Canvas>
     </div>
