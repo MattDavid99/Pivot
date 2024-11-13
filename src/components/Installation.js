@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { InstallationSteps } from "./InstallationSteps";
-import { SectionHeader } from "./SectionHeader";
+import React, { useState, useEffect } from 'react'
+import { InstallationSteps } from './InstallationSteps'
+import { SectionHeader } from './SectionHeader'
 
-import WoodSingleDoor from "../assets/carousels/Wood-Single-Door.png";
-import MetalSingleDoor from "../assets/carousels/Metal-Single-Door.png";
+import WoodSingleDoor from '../assets/carousels/Wood-Single-Door.png'
+import MetalSingleDoor from '../assets/carousels/Metal-Single-Door.png'
 
-import WoodDoubleDoor from "../assets/carousels/Wood-Double-Door.png";
-import MetalDoubleDoor from "../assets/carousels/Metal-Double-Door.png";
+import WoodDoubleDoor from '../assets/carousels/Wood-Double-Door.png'
+import MetalDoubleDoor from '../assets/carousels/Metal-Double-Door.png'
 
-import SingleChart from "../assets/measurementsTables/Single-Chart-1.png";
-import DoubleChart from "../assets/measurementsTables/Double-Chart-1.png";
+import SingleChart from '../assets/measurementsTables/Single-Chart-1.png'
+import DoubleChart from '../assets/measurementsTables/Double-Chart-1.png'
 
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
-import "./installation.css";
+import './installation.css'
 
 const Carousel = ({
   slides,
@@ -24,9 +24,9 @@ const Carousel = ({
   chartImage,
   chartAlt,
 }) => {
-  const slidesLength = slides.length;
-  const disabledLeftButton = currentSlide === 0;
-  const disabledRightButton = currentSlide >= slidesLength - 1;
+  const slidesLength = slides.length
+  const disabledLeftButton = currentSlide === 0
+  const disabledRightButton = currentSlide >= slidesLength - 1
 
   return (
     <div className="space-y-10 md:space-y-12 mt-8 flex flex-row  ">
@@ -43,13 +43,13 @@ const Carousel = ({
               onClick={previousSlide}
               disabled={currentSlide === 0}
               className={`${
-                disabledLeftButton ? "bg-[#c0f0c0]" : "bg-[#83ce53]"
+                disabledLeftButton ? 'bg-[#c0f0c0]' : 'bg-[#83ce53]'
               } text-white w-16 h-8 flex items-center justify-center shadow-lg transition duration-300 rounded-full ${
                 disabledLeftButton
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-[#69c569]"
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'hover:bg-[#69c569]'
               }`}
-              style={{ borderRadius: "20px" }}
+              style={{ borderRadius: '20px' }}
             >
               <FaArrowLeft />
             </button>
@@ -57,13 +57,13 @@ const Carousel = ({
               onClick={nextSlide}
               disabled={disabledRightButton}
               className={`${
-                disabledRightButton ? "bg-[#c0f0c0]" : "bg-[#83ce53]"
+                disabledRightButton ? 'bg-[#c0f0c0]' : 'bg-[#83ce53]'
               } text-white w-16 h-8 flex items-center justify-center shadow-lg transition duration-300 rounded-full ${
                 disabledRightButton
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-[#69c569]"
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'hover:bg-[#69c569]'
               }`}
-              style={{ borderRadius: "20px" }}
+              style={{ borderRadius: '20px' }}
             >
               <FaArrowRight />
             </button>
@@ -79,8 +79,8 @@ const Carousel = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const ImageBlockWithTitle = ({ imageSrc, onClick }) => (
   <div className="flex flex-col items-center">
@@ -92,63 +92,63 @@ const ImageBlockWithTitle = ({ imageSrc, onClick }) => (
       onClick={() => onClick(imageSrc)}
     />
   </div>
-);
+)
 
-const SingleSlide = [WoodSingleDoor, MetalSingleDoor];
-const DoubleSlide = [WoodDoubleDoor, MetalDoubleDoor];
+const SingleSlide = [WoodSingleDoor, MetalSingleDoor]
+const DoubleSlide = [WoodDoubleDoor, MetalDoubleDoor]
 
 export const Installation = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(null);
-  const [currentSingleSlide, setCurrentSingleSlide] = useState(0);
-  const [currentDoubleSlide, setCurrentDoubleSlide] = useState(0);
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentImage, setCurrentImage] = useState(null)
+  const [currentSingleSlide, setCurrentSingleSlide] = useState(0)
+  const [currentDoubleSlide, setCurrentDoubleSlide] = useState(0)
 
   const openModal = (image) => {
-    setCurrentImage(image);
-    setIsOpen(true);
-    document.body.style.overflow = "hidden"; // Disable background scroll
-  };
+    setCurrentImage(image)
+    setIsOpen(true)
+    document.body.style.overflow = 'hidden' // Disable background scroll
+  }
 
   const closeModal = () => {
-    setIsOpen(false);
-    setCurrentImage(null);
-    document.body.style.overflow = "auto"; // Re-enable background scroll
-  };
+    setIsOpen(false)
+    setCurrentImage(null)
+    document.body.style.overflow = 'auto' // Re-enable background scroll
+  }
 
   useEffect(() => {
     return () => {
-      document.body.style.overflow = "auto"; // Reset scroll on unmount
-    };
-  }, []);
+      document.body.style.overflow = 'auto' // Reset scroll on unmount
+    }
+  }, [])
 
   function handleNextSlide(type) {
-    if (type === "single" && currentSingleSlide >= SingleSlide.length - 1) {
-      return;
+    if (type === 'single' && currentSingleSlide >= SingleSlide.length - 1) {
+      return
     }
-    if (type === "single") {
-      setCurrentSingleSlide((currentSingleSlide) => currentSingleSlide + 1);
+    if (type === 'single') {
+      setCurrentSingleSlide((currentSingleSlide) => currentSingleSlide + 1)
     }
 
-    if (type === "double" && currentDoubleSlide >= DoubleSlide.length - 1) {
-      return;
+    if (type === 'double' && currentDoubleSlide >= DoubleSlide.length - 1) {
+      return
     }
-    if (type === "double") {
-      setCurrentDoubleSlide((currentDoubleSlide) => currentDoubleSlide + 1);
+    if (type === 'double') {
+      setCurrentDoubleSlide((currentDoubleSlide) => currentDoubleSlide + 1)
     }
   }
 
   function handlePreviousSlide(type) {
-    if (type === "single" && currentSingleSlide <= 0) {
-      return;
+    if (type === 'single' && currentSingleSlide <= 0) {
+      return
     }
-    if (type === "single") {
-      setCurrentSingleSlide((currentSingleSlide) => currentSingleSlide - 1);
+    if (type === 'single') {
+      setCurrentSingleSlide((currentSingleSlide) => currentSingleSlide - 1)
     }
-    if (type === "double" && currentDoubleSlide <= 0) {
-      return;
+    if (type === 'double' && currentDoubleSlide <= 0) {
+      return
     }
-    if (type === "double") {
-      setCurrentDoubleSlide((currentDoubleSlide) => currentDoubleSlide - 1);
+    if (type === 'double') {
+      setCurrentDoubleSlide((currentDoubleSlide) => currentDoubleSlide - 1)
     }
   }
 
@@ -160,8 +160,8 @@ export const Installation = () => {
       <div className="flex flex-col gap-24">
         <Carousel
           currentSlide={currentSingleSlide}
-          nextSlide={() => handleNextSlide("single")}
-          previousSlide={() => handlePreviousSlide("single")}
+          nextSlide={() => handleNextSlide('single')}
+          previousSlide={() => handlePreviousSlide('single')}
           slides={SingleSlide}
           onClick={openModal}
           chartImage={SingleChart}
@@ -171,8 +171,8 @@ export const Installation = () => {
 
         <Carousel
           currentSlide={currentDoubleSlide}
-          nextSlide={() => handleNextSlide("double")}
-          previousSlide={() => handlePreviousSlide("double")}
+          nextSlide={() => handleNextSlide('double')}
+          previousSlide={() => handlePreviousSlide('double')}
           slides={DoubleSlide}
           onClick={openModal}
           chartImage={DoubleChart}
@@ -183,7 +183,7 @@ export const Installation = () => {
       {/* Modal for full-size image view */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40"
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[90000]"
           onClick={closeModal}
         >
           <div className="relative max-w-full max-h-full p-4 md:p-8">
@@ -196,5 +196,5 @@ export const Installation = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
