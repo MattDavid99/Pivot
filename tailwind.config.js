@@ -14,7 +14,11 @@ module.exports = {
         'primary-dark': '#74b247',
         'primary-darker': '#65953c',
       },
+      fontFamily: {
+        // sans: ['Montserrat', 'Arial', 'sans-serif'],
+        sans: ['Roboto', 'Arial', 'sans-serif'],
+      },
     },
   },
   plugins: [],
-};
+}
