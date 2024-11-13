@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { InstallationSteps } from './InstallationSteps'
 import { SectionHeader } from './SectionHeader'
 
-import WoodSingleDoor from '../assets/carousels/single-wood_selection.png'
-import MetalSingleDoor from '../assets/carousels/single-metal_selection.png'
+import WoodSingleDoor from '../assets/carousels/Wood-Single-Door.png'
+import MetalSingleDoor from '../assets/carousels/Metal-Single-Door.png'
 
-import WoodDoubleDoor from '../assets/carousels/double-wood_selection.png'
-import MetalDoubleDoor from '../assets/carousels/double-metal_selection.png'
+import WoodDoubleDoor from '../assets/carousels/Wood-Double-Door.png'
+import MetalDoubleDoor from '../assets/carousels/Metal-Double-Door.png'
 
 import SingleChart from '../assets/measurementsTables/Single-Chart-1.png'
 import DoubleChart from '../assets/measurementsTables/Double-Chart-1.png'

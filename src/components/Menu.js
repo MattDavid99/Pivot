@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import Logo from '../assets/Main-Logo.png';
+import React, { useState, useEffect } from 'react'
+import Logo from '../assets/Main-Logo.png'
 
 export const Menu = ({ activeSection, scrollToSection }) => {
   // State to track whether to show the iframe or not
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false)
 
   // Toggle function to show/hide the form
   const handleButtonClick = () => {
-    setShowForm(true);
-  };
+    setShowForm(true)
+  }
 
   // Function to close the modal
   const closeModal = () => {
-    setShowForm(false);
-  };
+    setShowForm(false)
+  }
 
   useEffect(() => {
     if (showForm) {
       // Disable scroll
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'
     } else {
       // Enable scroll
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = 'auto'
     }
     return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [showForm]);
+      document.body.style.overflow = 'auto'
+    }
+  }, [showForm])
 
   return (
     <>
@@ -37,7 +37,12 @@ export const Menu = ({ activeSection, scrollToSection }) => {
             <img
               src={Logo}
               alt="Pivot Pocket Door Logo"
-              style={{ height: '50px', position: 'absolute', top: '50%', transform: 'translateY(-55%) translateX(-15%)' }}
+              style={{
+                height: '50px',
+                position: 'absolute',
+                top: '50%',
+                transform: 'translateY(-55%) translateX(-15%)',
+              }}
             />
             {/* Navigation */}
             <nav className="hidden md:block ml-[200px]">
@@ -47,8 +52,11 @@ export const Menu = ({ activeSection, scrollToSection }) => {
                     <button
                       onClick={() => scrollToSection(section)}
                       className={`hover:text-primary transition duration-300 relative ${
-                        activeSection === section ? 'text-primary font-bold' : ''
-                      }`}>
+                        activeSection === section
+                          ? 'text-primary font-bold'
+                          : ''
+                      }`}
+                    >
                       {section.charAt(0).toUpperCase() + section.slice(1)}
                       {activeSection === section && (
                         <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary transform origin-left scale-x-100 transition-transform duration-300"></span>
@@ -62,7 +70,8 @@ export const Menu = ({ activeSection, scrollToSection }) => {
           {/* Save Now Button */}
           <button
             onClick={handleButtonClick}
-            className="bg-primary text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-primary-dark transition duration-300 transform hover:scale-105">
+            className="bg-primary text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-primary-dark transition duration-300 transform hover:scale-105"
+          >
             Save Now
           </button>
         </div>
@@ -76,7 +85,8 @@ export const Menu = ({ activeSection, scrollToSection }) => {
             {/* Close Button */}
             <button
               onClick={closeModal}
-              className="absolute top-4 left-4 text-gray-500 hover:text-gray-800 focus:outline-none p-2 text-2xl z-50">
+              className="absolute top-4 left-4 text-gray-500 hover:text-gray-800 focus:outline-none p-2 text-2xl z-50"
+            >
               ✕
             </button>
             {/* Iframe Wrapper */}
@@ -89,7 +99,8 @@ export const Menu = ({ activeSection, scrollToSection }) => {
                 marginHeight="0"
                 marginWidth="0"
                 title="Request Form"
-                className="rounded-b-lg">
+                className="rounded-b-lg"
+              >
                 Loading…
               </iframe>
             </div>
@@ -97,5 +108,5 @@ export const Menu = ({ activeSection, scrollToSection }) => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
