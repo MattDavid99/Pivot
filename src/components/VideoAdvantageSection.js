@@ -23,7 +23,7 @@ export const VideoAdvantageSection = ({ scrollToHero }) => {
         <div className="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
           {/* Video Section */}
           <div className="lg:col-start-1">
-            <div className="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
+            <div className="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden engineered-video">
               <video
                 src={obj}
                 autoPlay
