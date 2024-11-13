@@ -36,6 +36,7 @@ export const Menu = ({ activeSection, scrollToSection }) => {
             {/* Logo */}
             <img
               src={Logo}
+              className="hero-logo"
               alt="Pivot Pocket Door Logo"
               style={{
                 height: '50px',
@@ -44,6 +45,13 @@ export const Menu = ({ activeSection, scrollToSection }) => {
                 transform: 'translateY(-55%) translateX(-15%)',
               }}
             />
+            <style jsx>{`
+              @media (max-width: 1650px) {
+                .hero-logo {
+                  margin-left: 20px;
+                }
+              }
+            `}</style>
             {/* Navigation */}
             <nav className="hidden md:block ml-[200px]">
               <ul className="flex space-x-9 pt-0.5">

@@ -22,7 +22,7 @@ const Hestonection = ({ scrollToSection }) => {
 
   return (
     <div className="container mx-auto flex flex-col md:flex-row items-center gap-2">
-      <div className="md:w-1/2 mb-12 md:mb-0 flex flex-col lg:text-left text-center items-center lg:items-start md:text-left d:items-start">
+      <div className="md:w-1/2 mb-12 md:mb-0 flex flex-col lg:text-left text-center items-center lg:items-start md:text-left d:items-start hero-content-left">
         <h2 className="text-4xl lg:text-6xl font-bold mb-16 leading-tight">
           <span className="block leading-tight">
             <span className="lightning-text inline-block -mb-2 mr-2">
@@ -42,6 +42,13 @@ const Hestonection = ({ scrollToSection }) => {
           Buy Now
         </button>
       </div>
+      <style jsx>{`
+        @media (max-width: 1650px) {
+          .hero-content-left {
+            margin-left: 20px;
+          }
+        }
+      `}</style>
 
       {/* Conditionally hide this section on small screens */}
       <div className="w-[90vw] md:w-1/2 w-full flex lg:justify-end relative animation-container">
