@@ -55,7 +55,7 @@ const Hestonection = ({ scrollToSection }) => {
         <style jsx>{`
           @media (max-width: 500px) and (max-height: 760px) {
             .animation-container {
-              height: 50%;
+              height: 40%;
             }
           }
         `}</style>
