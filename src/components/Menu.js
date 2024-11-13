@@ -36,7 +36,7 @@ export const Menu = ({ activeSection, scrollToSection }) => {
             {/* Logo */}
             <img
               src={Logo}
-              className="hero-logo"
+              className="hero-logo px-2"
               alt="Pivot Pocket Door Logo"
               style={{
                 height: '50px',

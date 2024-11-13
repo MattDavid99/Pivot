@@ -2,7 +2,9 @@
   display: flex;
   flex-direction: row;
   gap: 30px;
-  height: 550px;
+  height: 540px;
+  width: 100%;
+  justify-content: space-between;
   .doorImage {
     flex: 1;
     max-width: 100%;
@@ -16,10 +18,18 @@
     object-fit: contain;
   }
 
+  @media (max-width: 1535px) {
+    height: 420px;
+  }
+
   @media (max-width: 1024px) {
     flex-direction: column;
     height: 100%;
+    .doorImage {
+      flex: auto;
+    }
     .chartImg {
+      flex: auto;
       max-width: 50%;
       max-height: 50%;
     }
