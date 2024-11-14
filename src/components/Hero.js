@@ -42,26 +42,11 @@ const Hestonection = ({ scrollToSection }) => {
           Buy Now
         </button>
       </div>
-      <style jsx>{`
-        @media (max-width: 1650px) {
-          .hero-content-left {
-            margin-left: 20px;
-          }
-        }
-      `}</style>
 
       {/* Conditionally hide this section on small screens */}
       <div className="w-[90vw] md:w-1/2 w-full flex lg:justify-end relative animation-container">
-        <style jsx>{`
-          @media (max-width: 500px) and (max-height: 760px) {
-            .animation-container {
-              height: 40%;
-            }
-          }
-        `}</style>
-
         <div
-          className="rounded-lg flex items-center justify-center h-[700px] w-full m-auto md:m-0 md:max-h-[700px] md:max-w-[600px]"
+          className="rounded-lg flex items-center justify-center h-[400px] md:h-[700px] w-full mx-2 md:mx-0 md:max-h-[700px] md:max-w-[600px]"
           style={{
             overflow: 'hidden',
             backgroundColor: 'white',
