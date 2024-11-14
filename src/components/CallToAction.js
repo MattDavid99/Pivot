@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 export const CallToAction = ({ scrollToHero }) => {
   // State to track whether to show the iframe or not
   const [showForm, setShowForm] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   // Toggle function to show/hide the form
   const handleButtonClick = () => {
@@ -13,6 +14,22 @@ export const CallToAction = ({ scrollToHero }) => {
   const closeModal = () => {
     setShowForm(false)
   }
+
+  useEffect(() => {
+    // Function to check if the screen width is 800px or less
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 800)
+    }
+
+    // Initial check
+    handleResize()
+
+    // Add event listener to update on resize
+    window.addEventListener('resize', handleResize)
+
+    // Cleanup listener on component unmount
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     if (showForm) {
@@ -39,12 +56,14 @@ export const CallToAction = ({ scrollToHero }) => {
             of framing. Stronger, faster, and smarter construction starts here.
           </p>
           <div className="mt-8 flex items-center justify-center gap-x-6">
-            <button
-              onClick={handleButtonClick}
-              className="rounded-lg bg-white px-6 py-2.5 text-md font-semibold text-stone-900 shadow-sm hover:bg-primary-lighter focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all duration-300 transform hover:scale-105"
-            >
-              Get a Quote <span aria-hidden="true"> {'>'} </span>
-            </button>
+            {!isMobile && (
+              <button
+                onClick={handleButtonClick}
+                className="rounded-lg bg-white px-6 py-2.5 text-md font-semibold text-stone-900 shadow-sm hover:bg-primary-lighter focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all duration-300 transform hover:scale-105"
+              >
+                Get a Quote <span aria-hidden="true"> {'>'} </span>
+              </button>
+            )}
           </div>
         </div>
         <div
