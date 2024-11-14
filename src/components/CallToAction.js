@@ -75,11 +75,11 @@ export const CallToAction = ({ scrollToHero }) => {
         {showForm && (
           <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-[100000]">
             {/* Modal Container */}
-            <div className="bg-white rounded-lg shadow-xl w-[90%] sm:w-[80%] md:w-[70%] lg:w-[50%] max-w-[800px] h-[80vh] relative overflow-hidden flex flex-col pt-12 px-6">
+            <div className="bg-white rounded-lg shadow-xl w-[90%] sm:w-[80%] md:w-[70%] lg:w-[50%] max-w-[800px] h-[80vh] relative z-[100001] overflow-hidden flex flex-col pt-12 px-6">
               {/* Close Button */}
               <button
                 onClick={closeModal}
-                className="absolute top-4 left-4 text-gray-500 hover:text-gray-800 focus:outline-none p-2 text-2xl z-50"
+                className="absolute top-4 left-4 text-gray-500 hover:text-gray-800 focus:outline-none p-2 text-2xl z-[100002]"
               >
                 ✕
               </button>
