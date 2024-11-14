@@ -183,7 +183,7 @@ export const Installation = () => {
       {/* Modal for full-size image view */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[90000]"
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[80000]"
           onClick={closeModal}
         >
           <div className="relative max-w-full max-h-full p-4 md:p-8">
