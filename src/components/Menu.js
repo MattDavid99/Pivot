@@ -37,12 +37,14 @@ export const Menu = ({ activeSection, scrollToSection }) => {
             <img
               src={Logo}
               className="hero-logo px-2"
+              onClick={() => scrollToSection('home')}
               alt="Pivot Pocket Door Logo"
               style={{
                 height: '50px',
                 position: 'absolute',
                 top: '50%',
                 transform: 'translateY(-55%) translateX(-15%)',
+                cursor: 'pointer',
               }}
             />
             <style jsx>{`
