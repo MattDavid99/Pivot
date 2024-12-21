@@ -25,7 +25,7 @@ const Hestonection = ({ scrollToSection }) => {
       <div className="md:w-1/2 mb-12 md:mb-0 flex flex-col lg:text-left text-center items-center lg:items-start md:text-left d:items-start hero-content-left px-2">
         <h2 className="text-4xl lg:text-6xl font-bold mb-16 leading-tight">
           <span className="block leading-tight">
-            <span className="lightning-text inline-block -mb-2 mr-2">
+            <span className="lightning-text inline-block -mb-2 mr-2" style={{color: '#82ce51'}}>
               A Revolutionary
             </span>
             <div></div>

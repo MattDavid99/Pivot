@@ -65,7 +65,7 @@ const MarketingPage = () => {
 
       <main className="scroll-smooth">
         {/* Hero*/}
-        <section className="py-24 bg-gradient-to-r from-primary to-primary-dark text-white">
+        <section className="py-24 bg-primary-2 text-black">
           <Hestonection
             scrollToSection={() => scrollToSection('installation')}
           />
